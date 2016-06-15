@@ -1,0 +1,68 @@
+version: '2'
+
+services:
+
+### Nginx Server Container ##################################
+
+    nginx:
+        build: ./nginx
+        volumes_from:
+            - php
+        volumes:
+            - ./nginx/logs/:/var/log/nginx
+        links:
+            - php
+        environment:
+            VIRTUAL_HOST: app.local # For nginx-proxy https://github.com/jwilder/nginx-proxy
+        expose:
+            - "80"
+            - "443"
+        networks:
+            - front
+            - back
+
+### PHP Container ###########################################
+
+    php:
+        build: ./php
+        volumes_from:
+            - data
+        volumes:
+            - ./php/logs/:/usr/local/var/log/php
+        expose:
+            - "9000"
+        networks:
+            - back
+
+### MySQL Container #########################################
+
+    mysql:
+        build: ./mysql
+        volumes:
+            - ./mysql/data/:/var/lib/mysql
+        expose:
+            - "3306"
+        environment:
+            MYSQL_DATABASE: laravel
+            MYSQL_USER: laravel
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
+        links:
+            - php
+        networks:
+            - back
+
+### Data Container ##########################################
+
+    data:
+        image: alpine
+        command: "true"
+        volumes:
+            - ./app/:/var/www/laravel
+    
+networks:
+    back:
+        driver: bridge
+    front:
+        external:
+            name: proxy_network
