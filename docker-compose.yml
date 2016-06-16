@@ -6,6 +6,7 @@ services:
 
     nginx:
         build: ./nginx
+        restart: unless-stopped
         volumes_from:
             - php
         volumes:
@@ -25,6 +26,7 @@ services:
 
     php:
         build: ./php
+        restart: unless-stopped
         volumes_from:
             - data
         volumes:
@@ -38,6 +40,7 @@ services:
 
     mysql:
         build: ./mysql
+        restart: unless-stopped
         volumes:
             - ./mysql/data/:/var/lib/mysql
         expose:
@@ -56,6 +59,7 @@ services:
 
     data:
         image: alpine
+        restart: unless-stopped
         command: "true"
         volumes:
             - ./app/:/var/www/laravel
