@@ -6,7 +6,7 @@ services:
 
     nginx:
         build: ./nginx
-        restart: unless-stopped
+        restart: always
         volumes_from:
             - php
         volumes:
@@ -26,7 +26,7 @@ services:
 
     php:
         build: ./php
-        restart: unless-stopped
+        restart: always
         volumes:
             - ./app/:/var/www/laravel
             - ./php/logs/:/usr/local/var/log/php
@@ -39,7 +39,7 @@ services:
 
     mysql:
         build: ./mysql
-        restart: unless-stopped
+        restart: always
         volumes:
             - ./mysql/data/:/var/lib/mysql
         expose:
