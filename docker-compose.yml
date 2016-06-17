@@ -19,22 +19,21 @@ services:
             - "80"
             - "443"
         networks:
-            - front
-            - back
+            - proxy
+            - default
 
 ### PHP Container ###########################################
 
     php:
         build: ./php
         restart: unless-stopped
-        volumes_from:
-            - data
         volumes:
+            - ./app/:/var/www/laravel
             - ./php/logs/:/usr/local/var/log/php
         expose:
             - "9000"
         networks:
-            - back
+            - default
 
 ### MySQL Container #########################################
 
@@ -53,20 +52,9 @@ services:
         links:
             - php
         networks:
-            - back
-
-### Data Container ##########################################
-
-    data:
-        image: alpine
-        restart: unless-stopped
-        command: "true"
-        volumes:
-            - ./app/:/var/www/laravel
+            - default
     
 networks:
-    back:
-        driver: bridge
-    front:
+    proxy:
         external:
             name: proxy_network
