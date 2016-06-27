@@ -1,7 +1,7 @@
 FROM nginx:latest
 
 ADD nginx.conf /etc/nginx/
-ADD globerv.conf /etc/nginx/sites-available/
+ADD laravel.conf /etc/nginx/sites-available/
 
 RUN echo "upstream php-upstream { server php:9000; }" > /etc/nginx/conf.d/upstream.conf
 
