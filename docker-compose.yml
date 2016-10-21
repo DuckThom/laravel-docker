@@ -28,8 +28,7 @@ services:
         build: ./php
         restart: always
         volumes:
-            - ./app/:/var/www/laravel
-            - ./php/logs/:/usr/local/var/log/php
+            - ./app/:/var/www/html
         expose:
             - "9000"
         networks:
@@ -57,4 +56,4 @@ services:
 networks:
     proxy:
         external:
-            name: proxy_network
+            name: proxy_default
