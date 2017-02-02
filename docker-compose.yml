@@ -6,13 +6,9 @@ services:
 
     nginx:
         build: ./nginx
-        restart: always
-        volumes_from:
-            - php
+        restart: unless-stopped
         volumes:
-            - ./nginx/logs/:/var/log/nginx
-        links:
-            - php
+            - ./app/:/var/www/html
         environment:
             VIRTUAL_HOST: app.local # For nginx-proxy https://github.com/jwilder/nginx-proxy
         expose:
@@ -26,33 +22,23 @@ services:
 
     php:
         build: ./php
-        restart: always
+        restart: unless-stopped
         volumes:
             - ./app/:/var/www/html
-        expose:
-            - "9000"
-        networks:
-            - default
 
 ### MySQL Container #########################################
 
     mysql:
-        build: ./mysql
-        restart: always
+        image: mysql:5.6
+        restart: unless-stopped
         volumes:
             - ./mysql/data/:/var/lib/mysql
-        expose:
-            - "3306"
         environment:
             MYSQL_DATABASE: laravel
             MYSQL_USER: laravel
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
-        links:
-            - php
-        networks:
-            - default
-    
+
 networks:
     proxy:
         external:
