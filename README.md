@@ -4,7 +4,7 @@ A basic docker-compose config for Laravel (and probably other things as well)
 ## Components
 
 - nginx
-- php-fpm 7.1
+- php-fpm 7.1 with xdebug and blackfire
 - mysql 5.7
 
 ## Storage
