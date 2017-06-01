@@ -10,7 +10,7 @@ services:
         volumes:
             - ./app/:/var/www/html
         environment:
-            VIRTUAL_HOST: app.local # For nginx-proxy https://github.com/jwilder/nginx-proxy
+            VIRTUAL_HOST: app.dev # For nginx-proxy https://github.com/jwilder/nginx-proxy
         expose:
             - "80"
             - "443"
