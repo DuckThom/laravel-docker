@@ -9,14 +9,13 @@ services:
         restart: unless-stopped
         volumes:
             - ./app/:/var/www/html
-        environment:
-            VIRTUAL_HOST: app.dev # For nginx-proxy https://github.com/jwilder/nginx-proxy
-        expose:
-            - "80"
-            - "443"
         networks:
             - proxy
             - default
+        labels:
+            - "traefik.enable=true"
+            - "traefik.frontend.rule=Host:app.dev"
+            - "traefik.docker.network=traefik_webgateway"
 
 ### PHP Container ###########################################
 
@@ -42,4 +41,4 @@ services:
 networks:
     proxy:
         external:
-            name: proxy_default
+            name: traefik_webgateway
