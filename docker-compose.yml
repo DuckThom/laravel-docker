@@ -14,7 +14,7 @@ services:
             - default
         labels:
             - "traefik.enable=true"
-            - "traefik.frontend.rule=Host:app.dev"
+            - "traefik.frontend.rule=Host:app.test"
             - "traefik.docker.network=traefik_webgateway"
 
 ### PHP Container ###########################################
